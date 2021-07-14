@@ -1,5 +1,6 @@
 <template>
   <NavBar />
+  <!-- use container class for fit to the form -->
   <div class="container">
     <router-view/>
   </div>
