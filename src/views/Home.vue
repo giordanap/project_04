@@ -1,11 +1,17 @@
 <template>
-  <form>
+  <!-- submit receive a method -->
+  <!-- The method print to console, but is hidden because submit use get and therefore the memory is refreshed -->
+  <!-- with prevent will no longer refresh by default -->
+  <form @submit.prevent="processForm">
     
+    <!-- in Bootstrap can use mt-5 mb-5 or my-5 -->
+    <h2 class="my-5" >Form with Vue.js</h2>
+
     <input 
       type="text"
       class="form-control my-2"
       placeholder="Input name"
-      v-model="task.name"
+      v-model.trim="task.name"
     >
     <div class="form-check form-check-inline">
       <input 
@@ -73,6 +79,21 @@
 
     </div>
 
+    <div class="mt-2">
+      <input 
+        type="number"
+        class="form-control"
+        v-model.number ="task.number"
+      >
+    </div>
+
+    <button 
+      class="btn btn-dark btn-block mt-2" 
+      type="submit"
+      :disabled='lockButton'
+    >
+      Process
+    </button>
 
   </form>
   <hr>
@@ -90,9 +111,36 @@ export default {
       task: {
         name: '',
         categories: [],
-        state: ''
+        state: '',
+        number: 0
+      },
+      disabled: true
+    }
+  },
+  methods: {
+    processForm() {
+      // Here send the data
+      console.log(this.task)
+      // validation to detect empty fields
+      if (this.task.name.trim() === "") {
+        console.log('empty field')
+        return
+      }
+      // console.log("it is not empty")
+
+      // Here clean the data
+      this.task = {
+        name: '',
+        categories: [],
+        state: '',
+        number: 0
       }
     }
   },
+  computed: {
+    lockButton() {
+      return this.task.name.trim() === "" ? true : false
+    }
+  }
 }
 </script>
